@@ -40,63 +40,112 @@ MonoBehaviour:
       Type: 0
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Increase blood
     - Name: Skin
       Type: 0
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Prespire
     - Name: Hair
       Type: 0
       Min: 0
       Max: 0
+      On: 1
+      ButtonTextOptions:
+      - Grow Hair
     - Name: Nose
       Type: 0
       Min: 0
       Max: 0
+      On: 1
+      ButtonTextOptions:
+      - Blow Nose
     - Name: Option 1
       Type: 0
       Min: 0
       Max: 0
+      On: 1
+      ButtonTextOptions:
+      - Press Option 1
     - Name: Toggle 1
       Type: 1
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Toggle This 1
     - Name: Toggle 2
       Type: 1
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Toogle 2
     - Name: Toggle 3
       Type: 1
       Min: 0
       Max: 0
+      On: 1
+      ButtonTextOptions:
+      - Toggle 3
     - Name: Toggle 4
       Type: 1
       Min: 0
       Max: 0
+      On: 1
+      ButtonTextOptions:
+      - Toggle 4
     - Name: Toggle 5
       Type: 1
       Min: 0
       Max: 0
-    - Name: Toggle 5
+      On: 0
+      ButtonTextOptions:
+      - Toggle 5
+    - Name: Toggle 6
       Type: 1
       Min: 0
-      Max: 0
+      Max: 1
+      On: 0
+      ButtonTextOptions:
+      - Toggle 6
+      - MAKE THE BUTTON
     - Name: Slider 1
       Type: 2
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Slider 1
     - Name: Slider 2
       Type: 2
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Slider 2
     - Name: Slider 3
       Type: 2
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Slider 3
     - Name: Slider 4
       Type: 2
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Slider 4
     - Name: Slider 5
       Type: 2
       Min: 0
       Max: 0
+      On: 0
+      ButtonTextOptions:
+      - Slider 5

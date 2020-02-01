@@ -64,7 +64,7 @@ public class ServerManager : IInitializable {
             count += LevelInfo.ButtonCount;
         }
 
-        instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(buttons.Buttons, currentLevel.InstructionCount)).Select(info => info.Randomize()).ToList();
+        instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(playerButtons, currentLevel.InstructionCount)).Select(info => info.Randomize()).ToList();
         activeInstructions.Clear();
 
         Observable.Timer(TimeSpan.FromSeconds(LevelInfo.WaitTime))
