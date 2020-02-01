@@ -4,6 +4,7 @@ using UnityEngine;
 using Zenject;
 using UniRx;
 using System;
+using Newtonsoft.Json;
 
 public class ClientManager : IInitializable, ITickable, IDisposable {
 
@@ -19,13 +20,29 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
     private LocalServer localServer;
 
     public void Initialize() {
+        clientState.NetworkMessages
+            .Where(message => message != null)
+            .Subscribe(HandleMessages);
+    }
 
+    private void HandleMessages(NetworkData message) {
+        switch(message.Type) {
+            case MessageType.PLAYER_DATA:
+                HandlePlayerState(JsonConvert.DeserializeObject<PlayerList>(message.Data));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void HandlePlayerState (PlayerList data) {
+        data.List.ForEach(pd => {
+                clientState.Players[pd.Id] = pd;
+            });
     }
 
     public void Dispose() {
-        if(localServer != null) {
-            localServer.Dispose();
-        }
+        localServer?.Dispose();
     }
 
     public void Tick() {

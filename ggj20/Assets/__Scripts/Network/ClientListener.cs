@@ -5,6 +5,7 @@ using System.Net;
 using LiteNetLib.Utils;
 using UnityEngine;
 using System.Net.Sockets;
+using Newtonsoft.Json;
 
 public class ClientListener : IInitializable, ITickable, IDisposable {
 
@@ -31,12 +32,25 @@ public class ClientListener : IInitializable, ITickable, IDisposable {
             Debug.Log($"Server connection error {endPoint} {socketError}");
         };
 
+        listener.NetworkReceiveEvent += OnNetworkReceive;
+
         client = new NetManager(listener)
             {
                 UnconnectedMessagesEnabled = true
             };
 
         client.Start();
+    }
+
+    private void OnNetworkReceive (NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod) {
+
+        clientState.NetworkMessages.Value = JsonConvert.DeserializeObject<NetworkData>(reader.GetString());
+    }
+
+    public void SendMessage (NetworkData message) {
+        NetDataWriter writer = new NetDataWriter();
+        writer.Put(JsonConvert.SerializeObject(message));
+        server?.Send(writer, DeliveryMethod.ReliableOrdered);
     }
 
     // client received a response from the server

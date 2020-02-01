@@ -15,4 +15,7 @@ public class ClientState {
     public ReactiveProperty<ServerConnection> ConnectionState =
         new ReactiveProperty<ServerConnection>(ServerConnection.UNCONNECTED);
 
+    public ReactiveProperty<NetworkData> NetworkMessages = new ReactiveProperty<NetworkData>(null);
+
+    public ReactiveDictionary<int,PlayerData> Players = new ReactiveDictionary<int,PlayerData>();
 }

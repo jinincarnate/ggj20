@@ -6,6 +6,7 @@ using System;
 using System.Net;
 using LiteNetLib;
 using LiteNetLib.Utils;
+using Newtonsoft.Json;
 
 // These interfaces are not called automatically
 //  because local server is created dynamically by a factory
@@ -26,11 +27,18 @@ public class LocalServer : IInitializable, ITickable, IDisposable {
     [Inject]
     private LocalServerSettings serverSettings;
 
+    [Inject]
+    private ServerState serverState;
+
+    [Inject]
+    private Player.Factory playerFactory;
+
     public void Initialize() {
         EventBasedNetListener listener = new EventBasedNetListener();
 
         listener.NetworkReceiveUnconnectedEvent += OnNetworkReceiveUnconnected;
 
+        // TODO:  make this a function of the class
         listener.ConnectionRequestEvent += request =>
             {
                 if(server.ConnectedPeersCount < serverSettings.MaxPlayers)
@@ -39,11 +47,32 @@ public class LocalServer : IInitializable, ITickable, IDisposable {
                     request.Reject();
             };
 
+        listener.PeerConnectedEvent += OnPlayerConnected;
+        listener.PeerDisconnectedEvent += OnPlayerDisconnected;
+
+        listener.NetworkReceiveEvent += OnNetworkReceive;
 
         server = new NetManager(listener);
         server.BroadcastReceiveEnabled = true;
         server.Start(serverSettings.Port);
         Debug.Log($"Local server started on port {serverSettings.Port}");
+
+    }
+
+    private void OnNetworkReceive (NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod) {
+        serverState.PeerMessages.Value = new PeerMessage {
+            PeerId = peer.Id,
+            Message = JsonConvert.DeserializeObject<NetworkData>(reader.GetString())
+        };
+        reader.Recycle();
+    }
+
+    private void OnPlayerConnected (NetPeer peer) {
+        serverState.Players.Add(peer.Id, playerFactory.Create(peer.Id, peer));
+    }
+
+    private void OnPlayerDisconnected (NetPeer peer, DisconnectInfo info) {
+
     }
 
     private void OnNetworkReceiveUnconnected (IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) {
