@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Zenject;
+using UniRx;
 
 public class PlayArea : MonoBehaviour
 {
@@ -7,7 +8,8 @@ public class PlayArea : MonoBehaviour
     public GameObject clickButtonPrefab;
     public GameObject toggleButtonPrefab;
 
-    [Inject] private ApplicationState applicationDataState;
+    // [Inject] private ApplicationState applicationDataState;
+    [Inject] private ClientState clientState;
 
     private void OnEnable()
     {
@@ -16,20 +18,33 @@ public class PlayArea : MonoBehaviour
 
     public void SetupPlayArea()
     {
-        foreach(ButtonData buttonData in applicationDataState.currentGameData.buttonData)
-        {
-            if(buttonData.buttonType == "click")
-            {
-                GameObject button = Instantiate(clickButtonPrefab, buttonsPanel);
-                InteractableButton interactable = button.GetComponent<InteractableButton>();
-                interactable.SetButtonText(buttonData.buttonName);
-            }
-            else if(buttonData.buttonType == "toggle")
-            {
-                GameObject button = Instantiate(toggleButtonPrefab, buttonsPanel);
-                InteractableButton interactable = button.GetComponent<InteractableButton>();
-                interactable.SetButtonText(buttonData.buttonName);
-            }
-        }
+
+        clientState.CurrentLevel
+            .Where(level => level != null)
+            .TakeUntilDisable(this)
+            .Subscribe(level => {
+                    foreach(var buttonData in level.Buttons) {
+                        switch(buttonData.Type) {
+                            case ButtonType.BUTTON:
+                            {
+                                GameObject button = Instantiate(clickButtonPrefab, buttonsPanel);
+                                InteractableButton interactable = button.GetComponent<InteractableButton>();
+                                interactable.SetButtonText(buttonData.Name);
+                            }
+                            break;
+
+                            case ButtonType.TOGGLE:
+                            {
+                                GameObject button = Instantiate(toggleButtonPrefab, buttonsPanel);
+                                InteractableButton interactable = button.GetComponent<InteractableButton>();
+                                interactable.SetButtonText(buttonData.Name);
+                            }
+                            break;
+
+                            default:
+                            break;
+                        }
+                    }
+                });
     }
 }

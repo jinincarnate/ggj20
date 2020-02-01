@@ -5,6 +5,7 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class ServerManager : IInitializable {
 
@@ -37,7 +38,29 @@ public class ServerManager : IInitializable {
     }
 
     private void StartLevel(Level level) {
-        int totalPlayers = serverState.Players.Count;
+        var totalPlayers = serverState.Players.Count;
+        var currentLevel = levels.LevelInfo[level.Index];
+
+        var playerButtons = ButtonConfig.GetRandomButtons(buttons.Buttons, LevelInfo.ButtonCount*totalPlayers);
+
+        int count = 0;
+        foreach(KeyValuePair<int, Player> kvp in serverState.Players) {
+            var player = kvp.Value;
+            var config = new LevelData {
+                Index = level.Index,
+                Buttons = playerButtons.GetRange(count,LevelInfo.ButtonCount)
+            };
+            var configString = JsonConvert.SerializeObject(config);
+            var data = new NetworkData {
+                Type = MessageType.CURRENT_INFO,
+                Data = configString
+            };
+            NetDataWriter writer = new NetDataWriter();
+            writer.Put(JsonConvert.SerializeObject(data));
+            player.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
+
+            count += LevelInfo.ButtonCount;
+        }
     }
 
     private void HandleAdd(DictionaryAddEvent<int, Player> player) {

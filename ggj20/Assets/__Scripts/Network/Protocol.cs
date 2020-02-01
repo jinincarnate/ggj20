@@ -5,7 +5,8 @@ using Newtonsoft.Json;
 public enum MessageType {
     READY,
     PLAYER_DATA,
-    SERVER_READY
+    SERVER_READY,
+    CURRENT_INFO,
 };
 
 [Serializable]
@@ -37,4 +38,10 @@ public class PlayerList {
 public class PlayerData {
     public int Id;
     public bool Ready;
+};
+
+[Serializable]
+public class LevelData {
+    public int Index;
+    public List<ButtonInfo> Buttons;
 };
