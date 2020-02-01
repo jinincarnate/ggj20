@@ -34,6 +34,8 @@ public class ButtonInfo {
     public bool On;
     public List<string> ButtonTextOptions;
 
+    private int PlayerId { get; set; }
+
     public ButtonInfo Randomize() {
         On = UnityEngine.Random.Range(0,100) > 50 ? true : false;
         return this;

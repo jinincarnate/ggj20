@@ -86,6 +86,7 @@ public class ServerManager : IInitializable {
         if(instructionSet.Count > 0) {
             var instruction = instructionSet[0];
             instructionSet.RemoveAt(0);
+            instruction.PlayerId = player.Id;
             activeInstructions.Add(instruction);
             SendToPlayer(player, new NetworkData {
                     Type = MessageType.INSTRUCTION,
@@ -165,8 +166,9 @@ public class ServerManager : IInitializable {
         var found = activeInstructions.FindIndex(button => button.Equals(buttonInfo));
 
         if(found > -1) {
+            var instr = activeInstructions[found];
             activeInstructions.RemoveAt(found);
-            var player = serverState.Players[id];
+            var player = serverState.Players[instr.PlayerId];
             SendInstructionToPlayer(player);
         }
 
