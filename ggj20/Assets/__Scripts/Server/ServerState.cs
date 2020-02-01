@@ -20,9 +20,20 @@ public class Player {
 
 };
 
+public class Level {
+    public int Index;
+};
+
 public class ServerState {
+
+    public enum Mode {
+        WAITING,
+        GAME
+    }
 
     public ReactiveDictionary<int,Player> Players = new ReactiveDictionary<int,Player>();
     public ReactiveProperty<PeerMessage> PeerMessages = new ReactiveProperty<PeerMessage>(null);
 
+    public ReactiveProperty<Mode> ServerMode = new ReactiveProperty<Mode>(Mode.WAITING);
+    public ReactiveProperty<Level> CurrentLevel = new ReactiveProperty<Level>(null);
 }

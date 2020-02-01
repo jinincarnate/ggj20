@@ -4,7 +4,8 @@ using Newtonsoft.Json;
 
 public enum MessageType {
     READY,
-    PLAYER_DATA
+    PLAYER_DATA,
+    SERVER_READY
 };
 
 [Serializable]

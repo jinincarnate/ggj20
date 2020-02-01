@@ -14,6 +14,12 @@ public class ServerManager : IInitializable {
     [Inject]
     private Player.Factory playerFactory;
 
+    [Inject]
+    private LevelConfig levels;
+
+    [Inject]
+    private ButtonConfig buttons;
+
     public void Initialize() {
         // TODO: Add to disposable
         serverState.PeerMessages
@@ -24,6 +30,14 @@ public class ServerManager : IInitializable {
             .Subscribe(HandleAdd);
         serverState.Players.ObserveReplace()
             .Subscribe(HandleReplace);
+
+        serverState.CurrentLevel
+            .Where(lvl => lvl != null)
+            .Subscribe(StartLevel);
+    }
+
+    private void StartLevel(Level level) {
+        int totalPlayers = serverState.Players.Count;
     }
 
     private void HandleAdd(DictionaryAddEvent<int, Player> player) {
@@ -32,10 +46,10 @@ public class ServerManager : IInitializable {
     }
 
     private void HandleReplace(DictionaryReplaceEvent<int, Player> player) {
-        DistributePlayerInfo(player.NewValue);
+        CheckReady(DistributePlayerInfo(player.NewValue));
     }
 
-    private void DistributePlayerInfo(Player _player) {
+    private List<PlayerData> DistributePlayerInfo(Player _player) {
         var list = serverState.Players.Values.Select(player => {
                 return new PlayerData {
                     Id = player.Id,
@@ -48,6 +62,23 @@ public class ServerManager : IInitializable {
                         List = list
                     })
             });
+
+        return list;
+    }
+
+    private void CheckReady(List<PlayerData> players) {
+        var allReady = players.All(pd => pd.Ready);
+
+        if(allReady && serverState.ServerMode.Value == ServerState.Mode.WAITING) {
+            StartGame();
+        }
+    }
+
+    private void StartGame() {
+        serverState.ServerMode.Value = ServerState.Mode.GAME;
+        serverState.CurrentLevel.Value = new Level {
+            Index = 1
+        };
     }
 
     public void SendToAll(NetworkData data) {
