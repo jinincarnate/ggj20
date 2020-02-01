@@ -6,6 +6,7 @@ using LiteNetLib.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 public class ServerManager : IInitializable {
 
@@ -20,6 +21,8 @@ public class ServerManager : IInitializable {
 
     [Inject]
     private ButtonConfig buttons;
+
+    private List<ButtonInfo> instructionSet = null;
 
     public void Initialize() {
         // TODO: Add to disposable
@@ -55,11 +58,35 @@ public class ServerManager : IInitializable {
                 Type = MessageType.CURRENT_INFO,
                 Data = configString
             };
-            NetDataWriter writer = new NetDataWriter();
-            writer.Put(JsonConvert.SerializeObject(data));
-            player.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
-
+            SendToPlayer(player, data);
             count += LevelInfo.ButtonCount;
+        }
+
+        instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(buttons.Buttons, currentLevel.InstructionCount));
+
+        Observable.Timer(TimeSpan.FromSeconds(LevelInfo.WaitTime))
+            .First()
+            .Subscribe(_ => {
+                   foreach(KeyValuePair<int, Player> kvp in serverState.Players) {
+                       SendInstructionToPlayer(kvp.Value);
+                   }
+                });
+    }
+
+    private void SendToPlayer(Player player, NetworkData data) {
+        NetDataWriter writer = new NetDataWriter();
+        writer.Put(JsonConvert.SerializeObject(data));
+        player.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
+    }
+
+    private void SendInstructionToPlayer(Player player) {
+        if(instructionSet.Count > 0) {
+            var instruction = instructionSet[0];
+            instructionSet.RemoveAt(0);
+            SendToPlayer(player, new NetworkData {
+                    Type = MessageType.INSTRUCTION,
+                    Data = JsonConvert.SerializeObject(instruction)
+                });
         }
     }
 

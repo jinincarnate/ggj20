@@ -11,6 +11,7 @@ public class LevelInfo {
     public float Timeout;
     public int MaxHealth;
     public const int ButtonCount = 4;
+    public const int WaitTime = 5;
 };
 
 [System.Serializable]
