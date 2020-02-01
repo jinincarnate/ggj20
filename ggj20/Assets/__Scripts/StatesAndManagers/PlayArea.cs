@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using Zenject;
 using UniRx;
+using TMPro;
 
 public class PlayArea : MonoBehaviour
 {
     public Transform buttonsPanel;
-    public GameObject clickButtonPrefab;
-    public GameObject toggleButtonPrefab;
+    public TMP_Text TextAreaText;
 
     // [Inject] private ApplicationState applicationDataState;
     [Inject] private ClientState clientState;
@@ -53,5 +53,11 @@ public class PlayArea : MonoBehaviour
                         }
                     }
                 });
+
+        clientState.CurrentInstruction
+            .Where(buttonInfo => buttonInfo != null)
+            .DistinctUntilChanged()
+            .TakeUntilDisable(this)
+            .Subscribe(buttonInfo => TextAreaText.text = buttonInfo.ButtonTextOptions.Count > 0 ? buttonInfo.ButtonTextOptions[0] : "Not Found");//TODO:randomise
     }
 }
