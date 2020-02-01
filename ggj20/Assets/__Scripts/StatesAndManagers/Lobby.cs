@@ -42,7 +42,6 @@ public class Lobby : MonoBehaviour
                     Type = MessageType.READY,
                     Data = JsonConvert.SerializeObject(new ReadyData { Ready = true })
                 });
-                applicationState.currentGameState.Value = GameState.Playing;
             });
     }
 
