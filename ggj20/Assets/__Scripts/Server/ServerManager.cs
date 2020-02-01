@@ -23,6 +23,7 @@ public class ServerManager : IInitializable {
     private ButtonConfig buttons;
 
     private List<ButtonInfo> instructionSet = null;
+    private List<ButtonInfo> activeInstructions = null;
 
     public void Initialize() {
         // TODO: Add to disposable
@@ -63,7 +64,7 @@ public class ServerManager : IInitializable {
             count += LevelInfo.ButtonCount;
         }
 
-        instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(buttons.Buttons, currentLevel.InstructionCount));
+        instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(buttons.Buttons, currentLevel.InstructionCount)).Select(info => info.Randomize()).ToList();
 
         Observable.Timer(TimeSpan.FromSeconds(LevelInfo.WaitTime))
             .First()
@@ -84,6 +85,7 @@ public class ServerManager : IInitializable {
         if(instructionSet.Count > 0) {
             var instruction = instructionSet[0];
             instructionSet.RemoveAt(0);
+            activeInstructions.Add(instruction);
             SendToPlayer(player, new NetworkData {
                     Type = MessageType.INSTRUCTION,
                     Data = JsonConvert.SerializeObject(instruction)
@@ -148,9 +150,25 @@ public class ServerManager : IInitializable {
             case MessageType.READY:
                 HandleReady(message.PeerId, message.Message);
                 break;
+            case MessageType.RESPONSE:
+                HandleResponse(message.PeerId, message.Message);
+                break;
             default:
                 break;
         }
+    }
+
+    private void HandleResponse(int id, NetworkData data) {
+        var buttonInfo = JsonConvert.DeserializeObject<ButtonInfo>(data.Data);
+
+        var found = activeInstructions.FindIndex(button => button.Equals(buttonInfo));
+
+        if(found > -1) {
+            activeInstructions.RemoveAt(found);
+            var player = serverState.Players[id];
+            SendInstructionToPlayer(player);
+        }
+
     }
 
     private void HandleReady(int id, NetworkData data) {

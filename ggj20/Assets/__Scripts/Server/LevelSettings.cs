@@ -31,6 +31,31 @@ public class ButtonInfo {
     public ButtonType Type;
     public int Min;
     public int Max;
+    public bool On;
+    public List<string> ButtonTextOptions;
+
+    public ButtonInfo Randomize() {
+        On = UnityEngine.Random.Range(0,100) > 50 ? true : false;
+        return this;
+    }
+
+    public override bool Equals(object obj) {
+        var item = obj as ButtonInfo;
+        if(item == null) {
+            return false;
+        }
+
+        switch(item.Type) {
+            case ButtonType.TOGGLE:
+                return item.On == On && item.Name == Name;
+            case ButtonType.BUTTON:
+                return item.Name == Name;
+            case ButtonType.SLIDER: // TODO: Overide this
+                return item.Name == Name;
+            default:
+                return item.Name == Name;
+        }
+    }
 };
 
 public static class Utils {
