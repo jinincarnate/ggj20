@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Zenject;
 
 public class PlayArea : MonoBehaviour
 {
@@ -8,14 +7,16 @@ public class PlayArea : MonoBehaviour
     public GameObject clickButtonPrefab;
     public GameObject toggleButtonPrefab;
 
-    private void Start()
+    [Inject] private ApplicationState applicationDataState;
+
+    private void OnEnable()
     {
         SetupPlayArea();
     }
 
     public void SetupPlayArea()
     {
-        foreach(ButtonData buttonData in ApplicationDataState.applicationDataState.currentGameData.buttonData)
+        foreach(ButtonData buttonData in applicationDataState.currentGameData.buttonData)
         {
             if(buttonData.buttonType == "click")
             {

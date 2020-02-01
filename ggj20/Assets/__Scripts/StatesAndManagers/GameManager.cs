@@ -1,60 +1,58 @@
-﻿using UniRx;
+﻿using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
+using static ApplicationState;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameStates
+    [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private GameObject lobbyPanel;
+    [SerializeField] private GameObject playAreaPanel;
+
+    [Inject] private ApplicationState applicationState;
+    private CompositeDisposable disposable = new CompositeDisposable();
+
+    public void Start()
     {
-        MainMenu,
-        LobbyLoading,
-        LobbyWaiting,
-        Playing
+        mainMenuPanel.SetActive(false);
+        lobbyPanel.SetActive(false);
+        playAreaPanel.SetActive(false);
+
+        applicationState.currentGameState
+            .Subscribe(HandleGameStateChanged)
+            .AddTo(disposable);
+
+        applicationState.currentGameState.Value = GameState.MainMenu;
     }
 
-    public const string LOBBY = "Lobby";
-    public const string PLAYAREA = "PlayArea";
-
-    public static GameManager gameManager;
-
-    public ReactiveProperty<GameStates> GameState = new ReactiveProperty<GameStates>(GameStates.MainMenu);
-
-    private void Awake()
-    {
-        if(gameManager != null && gameManager != this)
-        {
-            Destroy(this);
-            return;
-        }
-        gameManager = this;
-        DontDestroyOnLoad(this);
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        GameState.TakeUntilDestroy(this)
-            .Subscribe(HandleGameStateChanged);
-    }
-
-    private void HandleGameStateChanged(GameStates gameState)
+    private void HandleGameStateChanged(GameState gameState)
     {
         switch(gameState)
         {
-            case GameStates.LobbyLoading:
-                SceneManager.LoadScene(LOBBY);
+            case GameState.MainMenu:
+                mainMenuPanel.SetActive(true);
+                lobbyPanel.SetActive(false);
+                playAreaPanel.SetActive(false);
                 break;
-            case GameStates.Playing:
-                SceneManager.LoadScene(PLAYAREA);
+            case GameState.LobbyLoading:
+                mainMenuPanel.SetActive(false);
+                lobbyPanel.SetActive(true);
+                playAreaPanel.SetActive(false);
+                break;
+            case GameState.Playing:
+                mainMenuPanel.SetActive(false);
+                lobbyPanel.SetActive(false);
+                playAreaPanel.SetActive(true);
                 break;
             default:
                 break;
         }
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void Dispose()
     {
-
+        disposable.Dispose();
     }
 }

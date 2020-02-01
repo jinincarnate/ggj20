@@ -1,42 +1,39 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UniRx;
-using UnityEngine;
+using Zenject;
 
-public class ApplicationDataState : MonoBehaviour
+public class ApplicationState : IInitializable, IDisposable
 {
-    public static ApplicationDataState applicationDataState;
 
-    public GameData currentGameData;
-
-    public Subject<string> ApplicationDataReceivedSubject = new Subject<string>();
-
-    private void Awake()
+    public enum GameState
     {
-        if(applicationDataState != null && applicationDataState != this)
-        {
-            Destroy(this);
-            return;
-        }
-        applicationDataState = this;
-        DontDestroyOnLoad(this);
+        MainMenu,
+        LobbyLoading,
+        LobbyWaiting,
+        Playing
     }
 
-    private void Start()
+    public ReactiveProperty<GameState> currentGameState = new ReactiveProperty<GameState>(GameState.MainMenu);
+    public GameData currentGameData;
+    public Subject<string> ApplicationDataReceivedSubject = new Subject<string>();
+
+    private CompositeDisposable disposable = new CompositeDisposable();
+
+    public void Initialize()
     {
         ApplicationDataReceivedSubject
-            .TakeUntilDestroy(this)
             .Subscribe(data =>
             {
                 JObject jObj = JObject.Parse(data);
                 HandleApplicationDataReceived(jObj["Type"].ToString(), jObj["Data"].ToString());
-            });
+            })
+            .AddTo(disposable);
         TestButton();
     }
 
-    void HandleApplicationDataReceived(string messageType, string data)
+    private void HandleApplicationDataReceived(string messageType, string data)
     {
         switch(messageType)
         {
@@ -79,4 +76,8 @@ public class ApplicationDataState : MonoBehaviour
         ApplicationDataReceivedSubject.OnNext(json);
     }
 
+    public void Dispose()
+    {
+        disposable.Dispose();
+    }
 }

@@ -1,47 +1,46 @@
 ﻿using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using static GameManager;
+using Zenject;
+using static ApplicationState;
 
 public class Lobby : MonoBehaviour
 {
     [SerializeField] private GameObject loadingBackground;
     [SerializeField] private Button startGameButton;
 
-    private void Awake()
+    [Inject] private ApplicationState applicationState;
+
+    private void OnEnable()
     {
         loadingBackground.SetActive(true);
         startGameButton.gameObject.SetActive(false);
-    }
-
-    private void Start()
-    {
         Observable.Timer(new System.TimeSpan(0, 0, 2))
             .First()
-            .TakeUntilDestroy(this)
+            .TakeUntilDisable(this)
             .Subscribe(_ =>
             {
-                GameManager.gameManager.GameState.Value = GameManager.GameStates.LobbyWaiting;
+                applicationState.currentGameState.Value = ApplicationState.GameState.LobbyWaiting;
             });
 
-        GameManager.gameManager.GameState.TakeUntilDestroy(this)
+        applicationState.currentGameState.TakeUntilDisable(this)
             .Subscribe(HandleGameStateChanged);
 
         startGameButton.OnClickAsObservable()
             .First()
-            .TakeUntilDestroy(this)
+            .TakeUntilDisable(this)
             .Subscribe(_ =>
             {
                 startGameButton.interactable = false;
-                GameManager.gameManager.GameState.Value = GameManager.GameStates.Playing;
+                applicationState.currentGameState.Value = ApplicationState.GameState.Playing;
             });
     }
 
-    private void HandleGameStateChanged(GameStates gameState)
+    private void HandleGameStateChanged(GameState gameState)
     {
         switch(gameState)
         {
-            case GameStates.LobbyWaiting:
+            case GameState.LobbyWaiting:
                 loadingBackground.SetActive(false);
                 startGameButton.gameObject.SetActive(true);
                 break;
