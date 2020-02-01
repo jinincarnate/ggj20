@@ -57,7 +57,7 @@ public class ClientListener : IInitializable, ITickable, IDisposable {
     // can connect to server!
     private void OnNetworkReceiveUnconnected (IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) {
         var text = reader.GetString(100);
-        Debug.Log($"[Client] ReceiveUnconnected {messageType}. From: {remoteEndPoint}. Data: {text}");
+        // Debug.Log($"[Client] ReceiveUnconnected {messageType}. From: {remoteEndPoint}. Data: {text}");
         if (remoteEndPoint.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork &&
             messageType == UnconnectedMessageType.BasicMessage &&
             text == serverSettings.DiscoveryMessage) {
@@ -83,7 +83,6 @@ public class ClientListener : IInitializable, ITickable, IDisposable {
     // On start game
     // broadcast looking for a server
     public void SendBroadcast() {
-        Debug.Log("Sending broadcast to find server");
         NetDataWriter writer = new NetDataWriter();
         writer.Put("Server Broadcast");
         client.SendBroadcast(writer, serverSettings.Port);

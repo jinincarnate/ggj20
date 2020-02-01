@@ -54,7 +54,6 @@ public class ServerManager : IInitializable {
                 Index = level.Index,
                 Buttons = playerButtons.GetRange(count,LevelInfo.ButtonCount)
             };
-            Debug.Log($"Sending buttons {config.Buttons.Count}");
             var configString = JsonConvert.SerializeObject(config);
             var data = new NetworkData {
                 Type = MessageType.CURRENT_INFO,
@@ -73,6 +72,7 @@ public class ServerManager : IInitializable {
                    foreach(KeyValuePair<int, Player> kvp in serverState.Players) {
                        SendInstructionToPlayer(kvp.Value);
                    }
+                   serverState.ServerMode.Value = ServerState.Mode.GAME;
                 });
     }
 
@@ -130,7 +130,7 @@ public class ServerManager : IInitializable {
     }
 
     private void StartGame() {
-        serverState.ServerMode.Value = ServerState.Mode.GAME;
+        serverState.ServerMode.Value = ServerState.Mode.LOADING;
         serverState.CurrentLevel.Value = new Level {
             Index = 1
         };
@@ -160,16 +160,35 @@ public class ServerManager : IInitializable {
         }
     }
 
+    private void OnLevelWon() {
+        serverState.ServerMode.Value = ServerState.Mode.LOADING;
+        serverState.CurrentLevel.Value = new Level {
+            Index = serverState.CurrentLevel.Value.Index + 1
+        };
+    }
+
     private void HandleResponse(int id, NetworkData data) {
+
+        if(serverState.ServerMode.Value != ServerState.Mode.GAME) {
+            return;
+        }
+
         var buttonInfo = JsonConvert.DeserializeObject<ButtonInfo>(data.Data);
 
         var found = activeInstructions.FindIndex(button => button.Equals(buttonInfo));
 
         if(found > -1) {
-            var instr = activeInstructions[found];
-            activeInstructions.RemoveAt(found);
-            var player = serverState.Players[instr.PlayerId];
-            SendInstructionToPlayer(player);
+            if(instructionSet.Count == 0) {
+                // Level Won!
+                // Reset and start with next level
+                OnLevelWon();
+            }
+            else {
+                var instr = activeInstructions[found];
+                activeInstructions.RemoveAt(found);
+                var player = serverState.Players[instr.PlayerId];
+                SendInstructionToPlayer(player);
+            }
         }
 
     }

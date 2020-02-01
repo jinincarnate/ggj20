@@ -28,6 +28,7 @@ public class ServerState {
 
     public enum Mode {
         WAITING,
+        LOADING,
         GAME
     }
 

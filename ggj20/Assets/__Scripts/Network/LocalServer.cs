@@ -77,7 +77,7 @@ public class LocalServer : IInitializable, ITickable, IDisposable {
     }
 
     private void OnNetworkReceiveUnconnected (IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) {
-        Debug.Log($"[Server] ReceiveUnconnected {messageType}. From: {remoteEndPoint}. Data: {reader.GetString(100)}");
+        // Debug.Log($"[Server] ReceiveUnconnected {messageType}. From: {remoteEndPoint}. Data: {reader.GetString(100)}");
         NetDataWriter writer = new NetDataWriter();
         writer.Put(serverSettings.DiscoveryMessage);
         server.SendUnconnectedMessage(writer, remoteEndPoint);

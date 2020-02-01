@@ -82,9 +82,6 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
                     localServer.Initialize();
                 });
 
-        clientState.ConnectionState
-            .Subscribe(_ => Debug.Log(_));
-
         // try every three seconds
         Observable.Interval(TimeSpan.FromMilliseconds(250))
             // till client is connected
