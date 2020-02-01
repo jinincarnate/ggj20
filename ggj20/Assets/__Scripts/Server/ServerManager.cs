@@ -23,7 +23,7 @@ public class ServerManager : IInitializable {
     private ButtonConfig buttons;
 
     private List<ButtonInfo> instructionSet = null;
-    private List<ButtonInfo> activeInstructions = null;
+    private List<ButtonInfo> activeInstructions = new List<ButtonInfo>();
 
     public void Initialize() {
         // TODO: Add to disposable
@@ -65,6 +65,7 @@ public class ServerManager : IInitializable {
         }
 
         instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(buttons.Buttons, currentLevel.InstructionCount)).Select(info => info.Randomize()).ToList();
+        activeInstructions.Clear();
 
         Observable.Timer(TimeSpan.FromSeconds(LevelInfo.WaitTime))
             .First()
