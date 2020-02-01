@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button joinGameButton;
 
     [Inject] private ApplicationState applicationState;
+    [Inject] private ClientManager clientManager;
 
     private void OnEnable()
     {
@@ -17,6 +18,7 @@ public class MainMenu : MonoBehaviour
             .Subscribe(_ =>
             {
                 joinGameButton.interactable = false;
+                clientManager.Connect();
                 applicationState.currentGameState.Value = ApplicationState.GameState.LobbyLoading;
             });
     }
