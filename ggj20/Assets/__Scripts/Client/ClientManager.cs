@@ -30,9 +30,16 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
             case MessageType.PLAYER_DATA:
                 HandlePlayerState(JsonConvert.DeserializeObject<PlayerList>(message.Data));
                 break;
+            case MessageType.CURRENT_INFO:
+                HandleCurrentInfo(JsonConvert.DeserializeObject<LevelData>(message.Data));
+                break;
             default:
                 break;
         }
+    }
+
+    private void HandleCurrentInfo(LevelData data) {
+        clientState.CurrentLevel.Value = data;
     }
 
     private void HandlePlayerState (PlayerList data) {

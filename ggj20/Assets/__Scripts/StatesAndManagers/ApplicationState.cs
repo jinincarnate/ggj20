@@ -17,42 +17,22 @@ public class ApplicationState : IInitializable, IDisposable
 
     public ReactiveProperty<GameState> currentGameState = new ReactiveProperty<GameState>(GameState.MainMenu);
     public GameData currentGameData;
-    public Subject<string> ApplicationDataReceivedSubject = new Subject<string>();
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
     public void Initialize()
     {
-        ApplicationDataReceivedSubject
-            .Subscribe(data =>
-            {
-                JObject jObj = JObject.Parse(data);
-                HandleApplicationDataReceived(jObj["Type"].ToString(), jObj["Data"].ToString());
-            })
-            .AddTo(disposable);
         TestButton();
-    }
-
-    private void HandleApplicationDataReceived(string messageType, string data)
-    {
-        switch(messageType)
-        {
-            case "LevelStart":
-                currentGameData = JsonConvert.DeserializeObject<GameData>(data);
-                break;
-            default:
-                break;
-        }
     }
 
     public void TestButton()
     {
         string json = @"{
               'Type': 'LevelStart',
-              'Data': 
+              'Data':
               {
                 'stageName': 'Cough and Cold',
-                'buttonData': 
+                'buttonData':
                  [
                      {
                          'buttonName': 'sneeze',
@@ -73,7 +53,6 @@ public class ApplicationState : IInitializable, IDisposable
                  ]
               }
             }";
-        ApplicationDataReceivedSubject.OnNext(json);
     }
 
     public void Dispose()

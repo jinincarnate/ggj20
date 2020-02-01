@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 494b6b8751749ee6ca6715ecbce2d07a, type: 3}
+  m_Name: LevelSettings
+  m_EditorClassIdentifier: 
+  levels:
+    LevelInfo:
+    - Names: Common Cold,Flu,Rash
+      InstructionCount: 3
+      Timeout: 10
+      MaxHealth: 5
+    - Names: Big Disease
+      InstructionCount: 4
+      Timeout: 8
+      MaxHealth: 4
+    - Names: Bigger Disease
+      InstructionCount: 4
+      Timeout: 7
+      MaxHealth: 4
+    - Names: Biggest Disease
+      InstructionCount: 5
+      Timeout: 5
+      MaxHealth: 5
+    - Names: Deadly Disease
+      InstructionCount: 6
+      Timeout: 5
+      MaxHealth: 3
+  buttons:
+    Buttons:
+    - Name: Blood
+      Type: 0
+      Min: 0
+      Max: 0
+    - Name: Skin
+      Type: 0
+      Min: 0
+      Max: 0
+    - Name: Hair
+      Type: 0
+      Min: 0
+      Max: 0
+    - Name: Nose
+      Type: 0
+      Min: 0
+      Max: 0
+    - Name: Option 1
+      Type: 0
+      Min: 0
+      Max: 0
+    - Name: Toggle 1
+      Type: 1
+      Min: 0
+      Max: 0
+    - Name: Toggle 2
+      Type: 1
+      Min: 0
+      Max: 0
+    - Name: Toggle 3
+      Type: 1
+      Min: 0
+      Max: 0
+    - Name: Toggle 4
+      Type: 1
+      Min: 0
+      Max: 0
+    - Name: Toggle 5
+      Type: 1
+      Min: 0
+      Max: 0
+    - Name: Toggle 5
+      Type: 1
+      Min: 0
+      Max: 0
+    - Name: Slider 1
+      Type: 2
+      Min: 0
+      Max: 0
+    - Name: Slider 2
+      Type: 2
+      Min: 0
+      Max: 0
+    - Name: Slider 3
+      Type: 2
+      Min: 0
+      Max: 0
+    - Name: Slider 4
+      Type: 2
+      Min: 0
+      Max: 0
+    - Name: Slider 5
+      Type: 2
+      Min: 0
+      Max: 0
