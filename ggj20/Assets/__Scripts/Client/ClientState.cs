@@ -7,6 +7,7 @@ public class ClientState {
     public enum ServerConnection {
         UNCONNECTED,
         DISCOVERING,
+        CONNECTING,
         CONNECTED,
         ERROR
     }

@@ -57,12 +57,13 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
         // try every three seconds
         Observable.Interval(TimeSpan.FromMilliseconds(250))
             // till client is connected
-            .TakeUntil(clientState.ConnectionState.Where(c => c == ClientState.ServerConnection.CONNECTED))
+            .TakeUntil(clientState.ConnectionState.Where(c => c == ClientState.ServerConnection.CONNECTED || c == ClientState.ServerConnection.CONNECTING))
             // try 10 times
             .Take(40)
             .Finally(() => {
                     // after 10 tries, if still not connected, switch to error state
-                    if(clientState.ConnectionState.Value != ClientState.ServerConnection.CONNECTED) {
+                    if(clientState.ConnectionState.Value != ClientState.ServerConnection.CONNECTED
+                       && clientState.ConnectionState.Value != ClientState.ServerConnection.CONNECTING) {
                         clientState.ConnectionState.Value = ClientState.ServerConnection.ERROR;
                     }
                 })
