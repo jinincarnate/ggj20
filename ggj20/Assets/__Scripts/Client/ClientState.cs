@@ -20,4 +20,6 @@ public class ClientState {
     public ReactiveDictionary<int,PlayerData> Players = new ReactiveDictionary<int,PlayerData>();
 
     public ReactiveProperty<LevelData> CurrentLevel = new ReactiveProperty<LevelData>();
+
+    public ReactiveProperty<ButtonInfo> CurrentInstruction = new ReactiveProperty<ButtonInfo>(null);
 }

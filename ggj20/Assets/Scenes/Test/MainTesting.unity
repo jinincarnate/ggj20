@@ -827,17 +827,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel
       objectReference: {fileID: 0}
-    - target: {fileID: 7800588340825466918, guid: bda610d86e11f2f6386474271eabb836,
-        type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800588340825466918, guid: bda610d86e11f2f6386474271eabb836,
-        type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 20dcaa2aed0d2eb048ad2483278cbea7,
-        type: 2}
     - target: {fileID: 7800588340825466919, guid: bda610d86e11f2f6386474271eabb836,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -33,6 +33,9 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
             case MessageType.CURRENT_INFO:
                 HandleCurrentInfo(JsonConvert.DeserializeObject<LevelData>(message.Data));
                 break;
+            case MessageType.INSTRUCTION:
+                HandleInstruction(JsonConvert.DeserializeObject<ButtonInfo>(message.Data));
+                break;
             default:
                 break;
         }
@@ -46,6 +49,10 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
         data.List.ForEach(pd => {
                 clientState.Players[pd.Id] = pd;
             });
+    }
+
+    private void HandleInstruction(ButtonInfo data) {
+        clientState.CurrentInstruction.Value = data;
     }
 
     public void Dispose() {

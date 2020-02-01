@@ -53,6 +53,7 @@ public class ServerManager : IInitializable {
                 Index = level.Index,
                 Buttons = playerButtons.GetRange(count,LevelInfo.ButtonCount)
             };
+            Debug.Log($"Sending buttons {config.Buttons.Count}");
             var configString = JsonConvert.SerializeObject(config);
             var data = new NetworkData {
                 Type = MessageType.CURRENT_INFO,

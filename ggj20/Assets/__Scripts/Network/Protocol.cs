@@ -7,7 +7,8 @@ public enum MessageType {
     PLAYER_DATA,
     SERVER_READY,
     CURRENT_INFO,
-    INSTRUCTION
+    INSTRUCTION,
+    RESPONSE
 };
 
 [Serializable]

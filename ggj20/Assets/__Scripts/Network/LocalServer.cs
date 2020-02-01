@@ -41,7 +41,8 @@ public class LocalServer : IInitializable, ITickable, IDisposable {
         // TODO:  make this a function of the class
         listener.ConnectionRequestEvent += request =>
             {
-                if(server.ConnectedPeersCount < serverSettings.MaxPlayers)
+                if(server.ConnectedPeersCount < serverSettings.MaxPlayers &&
+                   serverState.ServerMode.Value == ServerState.Mode.WAITING)
                     request.AcceptIfKey(serverSettings.Key);
                 else
                     request.Reject();
