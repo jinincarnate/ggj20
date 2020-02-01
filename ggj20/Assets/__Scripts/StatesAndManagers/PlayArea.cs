@@ -10,6 +10,8 @@ public class PlayArea : MonoBehaviour
 
     // [Inject] private ApplicationState applicationDataState;
     [Inject] private ClientState clientState;
+    [Inject] private InteractableButton.ClickButtonFactory clickButtonFactory;
+    [Inject] private InteractableButton.ToggleButtonFactory toggleButtonFactory;
 
     private void OnEnable()
     {
@@ -28,24 +30,21 @@ public class PlayArea : MonoBehaviour
                         switch(buttonData.Type) {
                             case ButtonType.BUTTON:
                             {
-                                GameObject button = Instantiate(clickButtonPrefab, buttonsPanel);
-                                InteractableButton interactable = button.GetComponent<InteractableButton>();
-                                interactable.SetButtonText(buttonData.Name);
+                                InteractableButton interactable = clickButtonFactory.Create();
+                                interactable.SetButtonData(buttonData);
                             }
                             break;
 
                             case ButtonType.TOGGLE:
                             {
-                                GameObject button = Instantiate(toggleButtonPrefab, buttonsPanel);
-                                InteractableButton interactable = button.GetComponent<InteractableButton>();
-                                interactable.SetButtonText(buttonData.Name);
+                                InteractableButton interactable = toggleButtonFactory.Create();
+                                interactable.SetButtonData(buttonData);
                             }
                             break;
                             case ButtonType.SLIDER:
                             {
-                                GameObject button = Instantiate(toggleButtonPrefab, buttonsPanel);
-                                InteractableButton interactable = button.GetComponent<InteractableButton>();
-                                interactable.SetButtonText(buttonData.Name);
+                                InteractableButton interactable = toggleButtonFactory.Create();
+                                interactable.SetButtonData(buttonData);
                             }
                             break;
 
