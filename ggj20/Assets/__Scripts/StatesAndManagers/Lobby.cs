@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using Newtonsoft.Json;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -11,6 +12,7 @@ public class Lobby : MonoBehaviour
 
     [Inject] private ApplicationState applicationState;
     [Inject] private ClientState clientState;
+    [Inject] private ClientListener clientListener;
 
     private void OnEnable()
     {
@@ -35,7 +37,12 @@ public class Lobby : MonoBehaviour
             .Subscribe(_ =>
             {
                 startGameButton.interactable = false;
-                applicationState.currentGameState.Value = ApplicationState.GameState.Playing;
+                clientListener.SendMessage(new NetworkData
+                {
+                    Type = MessageType.READY,
+                    Data = JsonConvert.SerializeObject(new ReadyData { Ready = true })
+                });
+                applicationState.currentGameState.Value = GameState.Playing;
             });
     }
 
