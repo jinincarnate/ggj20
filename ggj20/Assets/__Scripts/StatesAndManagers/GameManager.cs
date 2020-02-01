@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playAreaPanel;
 
     [Inject] private ApplicationState applicationState;
+    [Inject] private ClientState clientState;
     private CompositeDisposable disposable = new CompositeDisposable();
 
     public void Start()
@@ -23,6 +24,11 @@ public class GameManager : MonoBehaviour
         applicationState.currentGameState
             .Subscribe(HandleGameStateChanged)
             .AddTo(disposable);
+
+        clientState.CurrentLevel
+            .Where(level => level != null)
+            .TakeUntilDisable(this)
+            .Subscribe(_ => applicationState.currentGameState.Value = GameState.Playing);
 
         applicationState.currentGameState.Value = GameState.MainMenu;
     }
