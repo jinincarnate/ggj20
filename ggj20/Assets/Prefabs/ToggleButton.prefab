@@ -89,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 4418671436160031172}
   button: {fileID: 0}
-  toggle: {fileID: 0}
+  toggle: {fileID: 5674556708281093339}
 --- !u!1 &3934115801337194856
 GameObject:
   m_ObjectHideFlags: 0

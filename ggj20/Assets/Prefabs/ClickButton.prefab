@@ -372,3 +372,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 4376332540395054716}
+  button: {fileID: 8185767415129540419}
+  toggle: {fileID: 0}
