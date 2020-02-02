@@ -107,11 +107,13 @@ public class PlayArea : MonoBehaviour
                             return totalTime;
                         })
                     .Finally(() => {
-                            client.SendMessage(new NetworkData {
-                                    Type = MessageType.TIMER_OVER,
-                                    Data = JsonConvert.SerializeObject(clientState.CurrentInstruction.Value)
-                                });
-                            clientState.ButtonInteractable = false;
+                            if(delta <= 0) {
+                                client.SendMessage(new NetworkData {
+                                        Type = MessageType.TIMER_OVER,
+                                        Data = JsonConvert.SerializeObject(clientState.CurrentInstruction.Value)
+                                    });
+                                clientState.ButtonInteractable = false;
+                            }
                         });
                 })
             .Subscribe(val => {
