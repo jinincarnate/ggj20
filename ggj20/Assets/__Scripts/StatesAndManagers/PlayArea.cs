@@ -107,7 +107,14 @@ public class PlayArea : MonoBehaviour
 
         instructionStream
             .TakeUntilDisable(this)
-            .Subscribe(buttonInfo => TextAreaText.text = buttonInfo.ButtonTextOptions.Count > 0 ? buttonInfo.ButtonTextOptions[0] : "Not Found");//TODO:randomise
+            .Subscribe(buttonInfo => {
+                    if(buttonInfo.Type == ButtonType.BUTTON) {
+                        TextAreaText.text = buttonInfo.ButtonTextOptions.Count > 0 ? buttonInfo.ButtonTextOptions[0] : "Not Found";
+                    }
+                    else if(buttonInfo.Type == ButtonType.TOGGLE) {
+                        TextAreaText.text = buttonInfo.On ? buttonInfo.ButtonTextOptions[0] : buttonInfo.ButtonTextOptions.Count > 1 ?  buttonInfo.ButtonTextOptions[1] : "Not Found";
+                    }
+                });//TODO:randomise
 
         instructionStream
             .TakeUntilDisable(this)
