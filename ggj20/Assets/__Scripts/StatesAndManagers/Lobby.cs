@@ -8,6 +8,7 @@ using static ClientState;
 public class Lobby : MonoBehaviour
 {
     [SerializeField] private GameObject loadingBackground;
+    [SerializeField] private GameObject lobby;
     [SerializeField] private Button startGameButton;
 
     [Inject] private ClientState clientState;
@@ -16,6 +17,7 @@ public class Lobby : MonoBehaviour
     private void OnEnable()
     {
         loadingBackground.SetActive(true);
+        lobby.SetActive(false);
         startGameButton.gameObject.SetActive(false);
 
         clientState.ConnectionState
@@ -51,6 +53,7 @@ public class Lobby : MonoBehaviour
         {
             case GameMode.LOBBY_WAITING:
                 loadingBackground.SetActive(false);
+                lobby.SetActive(true);
                 startGameButton.gameObject.SetActive(true);
                 break;
             default:
