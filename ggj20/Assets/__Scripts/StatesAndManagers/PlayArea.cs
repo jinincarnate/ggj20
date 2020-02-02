@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System;
 
 public class PlayArea : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PlayArea : MonoBehaviour
     [Inject] private InteractableButton.ToggleButtonFactory toggleButtonFactory;
     [Inject] private LevelConfig levelConfig;
     [Inject] private ClientListener client;
+
+    [SerializeField]
+    private GameObject Loading;
 
     private float currentProgress;
     private float currentMaxProgress;
@@ -81,6 +85,12 @@ public class PlayArea : MonoBehaviour
                     var maxHealth = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index].MaxHealth;
                     clientState.CurrentHealth.Value = maxHealth;
                 });
+
+        levelObservable
+            .TakeUntilDisable(this)
+            .Do(_ => Loading.SetActive(true))
+            .SelectMany(_ => Observable.Timer(TimeSpan.FromSeconds(LevelInfo.WaitTime/2)).First())
+            .Subscribe(level => Loading.SetActive(false));
 
         var instructionStream = clientState.CurrentInstruction
             .Where(buttonInfo => buttonInfo != null)
