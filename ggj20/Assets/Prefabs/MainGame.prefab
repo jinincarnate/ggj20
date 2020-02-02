@@ -1390,6 +1390,46 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3120471069785548402, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055329855402081715, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_ChildAlignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055329855402081715, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_CellSize.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055329855402081715, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_CellSize.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055329855402081715, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_Spacing.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6198089829313275438, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 125.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6198089829313275438, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8894525187764926045, guid: 00cda80db95026e4aa7d6f27620994de,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00cda80db95026e4aa7d6f27620994de, type: 3}
 --- !u!224 &4693823815260213443 stripped
