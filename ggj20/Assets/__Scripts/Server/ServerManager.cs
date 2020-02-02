@@ -29,6 +29,7 @@ public class ServerManager : IInitializable {
         // TODO: Add to disposable
         serverState.PeerMessages
             .Where(message => message != null)
+            .ObserveOnMainThread()
             .Subscribe(HandleMessage);
 
         serverState.Players.ObserveAdd()
@@ -48,6 +49,7 @@ public class ServerManager : IInitializable {
         var playerButtons = ButtonConfig.GetRandomButtons(buttons.Buttons, LevelInfo.ButtonCount*totalPlayers);
 
         serverState.CurrentHealth = currentLevel.MaxHealth;
+        serverState.CurrentPoints = 0;
 
         int count = 0;
         foreach(KeyValuePair<int, Player> kvp in serverState.Players) {
@@ -65,7 +67,7 @@ public class ServerManager : IInitializable {
             count += LevelInfo.ButtonCount;
         }
 
-        instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(playerButtons, currentLevel.InstructionCount)).Select(info => info.Randomize()).ToList();
+        instructionSet = new List<ButtonInfo>(ButtonConfig.GetRandomButtons(playerButtons, playerButtons.Count)).Select(info => info.Randomize()).ToList();
         activeInstructions.Clear();
 
         Observable.Timer(TimeSpan.FromSeconds(LevelInfo.WaitTime))
@@ -85,16 +87,16 @@ public class ServerManager : IInitializable {
     }
 
     private void SendInstructionToPlayer(Player player) {
-        if(instructionSet.Count > 0) {
-            var instruction = instructionSet[0];
-            instructionSet.RemoveAt(0);
-            instruction.PlayerId = player.Id;
-            activeInstructions.Add(instruction);
-            SendToPlayer(player, new NetworkData {
-                    Type = MessageType.INSTRUCTION,
-                    Data = JsonConvert.SerializeObject(instruction)
-                });
-        }
+        var instruction = instructionSet[UnityEngine.Random.Range(0,instructionSet.Count)];
+        instruction.Randomize();
+        instruction.PlayerId = player.Id;
+        activeInstructions.Add(instruction);
+        SendToPlayer(player, new NetworkData {
+                Type = MessageType.INSTRUCTION,
+                Data = JsonConvert.SerializeObject(instruction)
+            });
+
+        Debug.Log($"Sending instruction to {player.Id}");
     }
 
     private void HandleAdd(DictionaryAddEvent<int, Player> player) {
@@ -134,7 +136,7 @@ public class ServerManager : IInitializable {
     private void StartGame() {
         serverState.ServerMode.Value = ServerState.Mode.LOADING;
         serverState.CurrentLevel.Value = new Level {
-            Index = 1
+            Index = 0
         };
     }
 
@@ -179,16 +181,24 @@ public class ServerManager : IInitializable {
 
         var buttonInfo = JsonConvert.DeserializeObject<ButtonInfo>(data.Data);
         var found = activeInstructions.FindIndex(button => button.Equals(buttonInfo));
+        Debug.Log($"[SERVER] FAILED INSTRUCTION {found}");
         if(found > -1) {
             serverState.CurrentHealth -= 1;
-            if(instructionSet.Count == 0 || serverState.CurrentHealth <= 0) {
+            var instr = activeInstructions[found];
+            activeInstructions.RemoveAt(found);
+            if(serverState.CurrentHealth < 0) {
                 OnLevelLost();
+            }
+            else {
+                var player = serverState.Players[id];
+                SendInstructionToPlayer(player);
             }
         }
     }
 
     private void OnLevelLost() {
         // game over
+        Debug.Log($"[SERVER] GAME OVER");
         serverState.ServerMode.Value = ServerState.Mode.GAME_OVER;
         SendToAll(new NetworkData {
             Type = MessageType.GAME_OVER,
@@ -207,7 +217,9 @@ public class ServerManager : IInitializable {
         var found = activeInstructions.FindIndex(button => button.Equals(buttonInfo));
 
         if(found > -1) {
-            if(instructionSet.Count == 0) {
+            serverState.CurrentPoints += 1;
+            var currentLevel = levels.LevelInfo[serverState.CurrentLevel.Value.Index];
+            if(serverState.CurrentPoints >= currentLevel.InstructionCount) {
                 // Level Won!
                 // Reset and start with next level
                 OnLevelWon();

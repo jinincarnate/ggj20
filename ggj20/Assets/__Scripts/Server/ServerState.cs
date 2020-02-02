@@ -39,4 +39,5 @@ public class ServerState {
     public ReactiveProperty<Mode> ServerMode = new ReactiveProperty<Mode>(Mode.WAITING);
     public ReactiveProperty<Level> CurrentLevel = new ReactiveProperty<Level>(null);
     public int CurrentHealth = -1;
+    public int CurrentPoints = -1;
 }
