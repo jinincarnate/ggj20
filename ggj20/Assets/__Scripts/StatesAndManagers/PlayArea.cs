@@ -23,6 +23,8 @@ public class PlayArea : MonoBehaviour
 
     [SerializeField]
     private GameObject Loading;
+    [SerializeField]
+    private TMP_Text LoadingText;
 
     private float currentProgress;
     private float currentMaxProgress;
@@ -82,8 +84,15 @@ public class PlayArea : MonoBehaviour
                 }
                 TextAreaText.text = "Wait for instructions";
                 // set health to max locally
-                var maxHealth = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index].MaxHealth;
-                    clientState.CurrentHealth.Value = maxHealth;
+                var levelCon = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index];
+                var maxHealth = levelCon.MaxHealth;
+                clientState.CurrentHealth.Value = maxHealth;
+
+                var texts = levelCon.Names.Split(',');
+                var loadingText = texts[UnityEngine.Random.Range(0,texts.Count())];
+
+                LoadingText.text = loadingText;
+
                 });
 
         levelObservable
