@@ -90,19 +90,22 @@ public class PlayArea : MonoBehaviour
             .TakeUntilDisable(this)
             .Select(_ => levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index].Timeout)
             .SelectMany(totalTime => {
-                    float delta = 0;
                     clientState.ButtonInteractable = true;
                     var timerObs =  Observable.EveryUpdate()
-                    // Figure this out FIRST in the morning
+                    .ObserveOnMainThread()
                     .TakeUntil(instructionStream.Skip(1))
-                    .TakeUntil(levelObservable.Skip(1))
-                    .Select(_ => {
-                            delta += Time.unscaledDeltaTime;
-                            return totalTime - delta;
-                        });
+                    .TakeUntil(levelObservable.Skip(1));
 
+                    var delta = totalTime;
                     return timerObs
-                    .TakeUntil(timerObs.Where(val => val <= 0))
+                    .TakeUntil(timerObs.Where(val =>  {
+                                delta -= Time.deltaTime;
+                                return delta < 0;
+                            }))
+                    .Select(val => {
+                            totalTime -= Time.deltaTime;
+                            return totalTime;
+                        })
                     .Finally(() => {
                             client.SendMessage(new NetworkData {
                                     Type = MessageType.TIMER_OVER,

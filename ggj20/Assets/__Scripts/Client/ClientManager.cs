@@ -39,9 +39,16 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
             case MessageType.GAME_OVER:
                 HandleGameOver();
                 break;
+            case MessageType.HEALTH:
+                HandleHealth(JsonConvert.DeserializeObject<HealthData>(message.Data));
+                break;
             default:
                 break;
         }
+    }
+
+    private void HandleHealth(HealthData data) {
+        clientState.CurrentHealth.Value = data.Health;
     }
 
     private void HandleGameOver() {
