@@ -181,7 +181,7 @@ public class ServerManager : IInitializable {
 
         var buttonInfo = JsonConvert.DeserializeObject<ButtonInfo>(data.Data);
         var found = activeInstructions.FindIndex(button => button.Equals(buttonInfo));
-        Debug.Log($"[SERVER] FAILED INSTRUCTION {found}");
+
         if(found > -1) {
             serverState.CurrentHealth -= 1;
             var instr = activeInstructions[found];
@@ -193,6 +193,10 @@ public class ServerManager : IInitializable {
                 var player = serverState.Players[id];
                 SendInstructionToPlayer(player);
             }
+            SendToAll(new NetworkData {
+                    Type = MessageType.HEALTH,
+                    Data = JsonConvert.SerializeObject(new HealthData { Health = serverState.CurrentHealth })
+                });
         }
     }
 

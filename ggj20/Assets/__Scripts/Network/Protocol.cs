@@ -10,7 +10,8 @@ public enum MessageType {
     INSTRUCTION,
     RESPONSE,
     TIMER_OVER,
-    GAME_OVER
+    GAME_OVER,
+    HEALTH
 };
 
 [Serializable]

@@ -32,5 +32,7 @@ public class ClientState {
 
     public ReactiveProperty<GameMode> GameState = new ReactiveProperty<GameMode>(GameMode.MAIN_MENU);
 
+    public ReactiveProperty<int> CurrentHealth = new ReactiveProperty<int>(-1);
+
     public bool ButtonInteractable = false;
 }
