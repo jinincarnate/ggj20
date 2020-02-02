@@ -3,14 +3,13 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using static ApplicationState;
+using static ClientState;
 
 public class Lobby : MonoBehaviour
 {
     [SerializeField] private GameObject loadingBackground;
     [SerializeField] private Button startGameButton;
 
-    [Inject] private ApplicationState applicationState;
     [Inject] private ClientState clientState;
     [Inject] private ClientListener clientListener;
 
@@ -24,11 +23,12 @@ public class Lobby : MonoBehaviour
             .Subscribe(state => {
                 if(state == ClientState.ServerConnection.CONNECTED)
                 {
-                    applicationState.currentGameState.Value = ApplicationState.GameState.LobbyWaiting;
+                    clientState.GameState.Value = ClientState.GameMode.LOBBY_WAITING;
                 }
             });
 
-        applicationState.currentGameState.TakeUntilDisable(this)
+        clientState.GameState
+            .TakeUntilDisable(this)
             .Subscribe(HandleGameStateChanged);
 
         startGameButton.OnClickAsObservable()
@@ -45,11 +45,11 @@ public class Lobby : MonoBehaviour
             });
     }
 
-    private void HandleGameStateChanged(GameState gameState)
+    private void HandleGameStateChanged(GameMode gameState)
     {
         switch(gameState)
         {
-            case GameState.LobbyWaiting:
+            case GameMode.LOBBY_WAITING:
                 loadingBackground.SetActive(false);
                 startGameButton.gameObject.SetActive(true);
                 break;

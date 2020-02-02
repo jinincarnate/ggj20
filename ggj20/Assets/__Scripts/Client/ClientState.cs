@@ -15,6 +15,7 @@ public class ClientState {
     public enum GameMode {
         MAIN_MENU,
         LOBBY_LOADING,
+        LOBBY_WAITING,
         PLAYING,
         GAME_OVER
     }
