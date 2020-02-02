@@ -105,34 +105,35 @@ MonoBehaviour:
       ButtonTextOptions:
       - Start Clotting!
       - Stop Clotting!
-    - Name: Toggle 4
+    - Name: Portal Veins
       Type: 1
       Min: 0
       Max: 0
       On: 0
       ButtonTextOptions:
-      - Toggle 4
-    - Name: Option 1
+      - Open Portal Veins
+      - Close Portal Veins
+    - Name: Coronary Valve
       Type: 0
       Min: 0
       Max: 0
       On: 0
       ButtonTextOptions:
-      - Press Option 1
-    - Name: Slider 3
-      Type: 2
+      - Trigger Coronary Valve!
+    - Name: Cough
+      Type: 0
       Min: 0
       Max: 0
       On: 1
       ButtonTextOptions:
-      - Slider 3
-    - Name: Nose
+      - Cough!
+    - Name: Sniffle
       Type: 0
       Min: 0
       Max: 0
       On: 0
       ButtonTextOptions:
-      - Blow Nose
+      - Sniffle!
     - Name: Hair
       Type: 0
       Min: 0
@@ -140,146 +141,140 @@ MonoBehaviour:
       On: 1
       ButtonTextOptions:
       - Grow Hair
-    - Name: Toggle 2
+    - Name: Nose
       Type: 1
       Min: 0
       Max: 0
       On: 0
       ButtonTextOptions:
-      - Toogle 2
-    - Name: Toggle 6
+      - Hold Nose!
+      - Leave Nose!
+    - Name: Bone Marrow
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Make blood with Bone Marrow!
+      - Stop making blood with Bone Marrow!
+    - Name: Stomach Acid
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Start making stomach acid
+      - Stop making stomach acid
+    - Name: Villi
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Activate Villi
+      - Deactivate Villi
+    - Name: Appendix
+      Type: 0
+      Min: 0
+      Max: 1
+      On: 0
+      ButtonTextOptions:
+      - Drain Appendix
+    - Name: Anus
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Hold Anus!
+      - Let go of Anus!
+    - Name: Mammary Gland
+      Type: 0
+      Min: 0
+      Max: 1
+      On: 0
+      ButtonTextOptions:
+      - Secrete milk!
+    - Name: Sweat Gland
+      Type: 0
+      Min: 0
+      Max: 1
+      On: 0
+      ButtonTextOptions:
+      - Sweat!
+    - Name: Nails
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Grow Nails
+      - Stop growing Nails
+    - Name: Uterus
+      Type: 0
+      Min: 0
+      Max: 1
+      On: 0
+      ButtonTextOptions:
+      - Drain Uterus!
+    - Name: Spleen
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Stress Spleen!
+      - Destress Spleen!
+    - Name: Armpits
+      Type: 0
+      Min: 0
+      Max: 1
+      On: 0
+      ButtonTextOptions:
+      - Air the Armpits!
+    - Name: Brain
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Blood to the Brain!
+      - Stop blood to the Brain!
+    - Name: Kidneys
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Clean blood with Kidneys!
+      - Pause Kidneys!
+    - Name: Liver
+      Type: 0
+      Min: 0
+      Max: 1
+      On: 0
+      ButtonTextOptions:
+      - Drain Liver fat!
+    - Name: Liver
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
+      - Clean alchohol with Liver!
+      - Halt Liver functions!
+    - Name: Pancreas
       Type: 1
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
-      Type: 1
+      - Hyperdrive Pancreas!
+      - Halt Pancreas!
+    - Name: Muscle
+      Type: 0
       Min: 0
       Max: 1
       On: 0
       ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
-      Type: 1
-      Min: 0
-      Max: 1
-      On: 0
-      ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
-      Type: 1
-      Min: 0
-      Max: 1
-      On: 0
-      ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
-      Type: 1
-      Min: 0
-      Max: 1
-      On: 0
-      ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
-      Type: 1
-      Min: 0
-      Max: 1
-      On: 0
-      ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
-      Type: 1
-      Min: 0
-      Max: 1
-      On: 0
-      ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
-    - Name: Toggle 6
-      Type: 1
-      Min: 0
-      Max: 1
-      On: 0
-      ButtonTextOptions:
-      - Toggle 6
-      - MAKE THE BUTTON
+      - Shiver Muscle!
