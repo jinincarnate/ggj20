@@ -16,7 +16,7 @@ public class DisplayArea : MonoBehaviour {
     private float maxX;
 
     [SerializeField]
-    private Image virusBar;
+    private RectTransform virusBar;
 
     private void OnEnable() {
         clientState.CurrentHealth
@@ -26,7 +26,8 @@ public class DisplayArea : MonoBehaviour {
                     var level = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index];
                     var maxHealth = level.MaxHealth;
                     var xVal = maxX - (maxX-minX)*health/maxHealth;
-                    virusBar.fillAmount = xVal;
+
+                    virusBar.localPosition = new Vector3(xVal, virusBar.localPosition.y, virusBar.localPosition.z);
                 });
     }
 }
