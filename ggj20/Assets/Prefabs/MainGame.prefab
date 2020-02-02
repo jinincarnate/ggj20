@@ -716,6 +716,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayAreaPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 8994680146066648707, guid: dc95400c1514fc548a5861b17d64fb71,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8994680146066648718, guid: dc95400c1514fc548a5861b17d64fb71,
         type: 3}
       propertyPath: TextAreaText
