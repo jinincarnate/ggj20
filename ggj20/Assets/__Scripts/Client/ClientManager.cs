@@ -42,6 +42,9 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
             case MessageType.HEALTH:
                 HandleHealth(JsonConvert.DeserializeObject<HealthData>(message.Data));
                 break;
+            case MessageType.GAME_WON:
+                HandleGameWon();
+                break;
             default:
                 break;
         }
@@ -53,6 +56,11 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
 
     private void HandleGameOver() {
         clientState.GameState.Value = ClientState.GameMode.GAME_OVER;
+    }
+
+    private void HandleGameWon()
+    {
+        clientState.GameState.Value = ClientState.GameMode.GAME_WON;
     }
 
     private void HandleCurrentInfo(LevelData data) {

@@ -17,7 +17,8 @@ public class ClientState {
         LOBBY_LOADING,
         LOBBY_WAITING,
         PLAYING,
-        GAME_OVER
+        GAME_OVER,
+        GAME_WON
     }
 
     public ReactiveProperty<ServerConnection> ConnectionState =
