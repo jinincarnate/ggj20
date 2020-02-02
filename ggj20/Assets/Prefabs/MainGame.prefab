@@ -144,11 +144,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: fb25c3c5965a805d6b16762d2701ef62, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -650,7 +650,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9bbcca9171d09ece59a65248cc0f4c5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 392ee76d871d75addb47133ce1dd5ede, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1030,6 +1030,11 @@ PrefabInstance:
       propertyPath: m_textAlignment
       value: 514
       objectReference: {fileID: 0}
+    - target: {fileID: 967908230392464150, guid: dc95400c1514fc548a5861b17d64fb71,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1068629645327112969, guid: dc95400c1514fc548a5861b17d64fb71,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1119,12 +1124,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 4587045961873226139, guid: f3d4df99011c5b72886fcd0eec67bdf2,
+      objectReference: {fileID: 21300000, guid: f3d4df99011c5b72886fcd0eec67bdf2,
         type: 3}
     - target: {fileID: 8994680145192344993, guid: dc95400c1514fc548a5861b17d64fb71,
         type: 3}
       propertyPath: m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8994680145192344993, guid: dc95400c1514fc548a5861b17d64fb71,
         type: 3}
@@ -1179,7 +1184,7 @@ PrefabInstance:
     - target: {fileID: 8994680145192344995, guid: dc95400c1514fc548a5861b17d64fb71,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8994680145192344995, guid: dc95400c1514fc548a5861b17d64fb71,
         type: 3}
