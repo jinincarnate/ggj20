@@ -29,7 +29,8 @@ public class ServerState {
     public enum Mode {
         WAITING,
         LOADING,
-        GAME
+        GAME,
+        GAME_OVER
     }
 
     public ReactiveDictionary<int,Player> Players = new ReactiveDictionary<int,Player>();
@@ -37,4 +38,5 @@ public class ServerState {
 
     public ReactiveProperty<Mode> ServerMode = new ReactiveProperty<Mode>(Mode.WAITING);
     public ReactiveProperty<Level> CurrentLevel = new ReactiveProperty<Level>(null);
+    public int CurrentHealth = -1;
 }

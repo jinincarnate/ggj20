@@ -23,6 +23,7 @@ public class InteractableButton : MonoBehaviour
     [SerializeField] private Toggle toggle;
 
     [Inject] private ClientListener client;
+    [Inject] private ClientState clientState;
 
     private ButtonInfo buttonInfo;
 
@@ -37,6 +38,11 @@ public class InteractableButton : MonoBehaviour
     }
 
     public void OnClick() {
+
+        if(clientState.ButtonInteractable == false) {
+            return;
+        }
+
         if(buttonInfo.Type == ButtonType.TOGGLE)
         {
             buttonInfo.On = !buttonInfo.On;

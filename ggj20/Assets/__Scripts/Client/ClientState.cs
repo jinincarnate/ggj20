@@ -12,6 +12,13 @@ public class ClientState {
         ERROR
     }
 
+    public enum GameMode {
+        MAIN_MENU,
+        LOBBY_LOADING,
+        PLAYING,
+        GAME_OVER
+    }
+
     public ReactiveProperty<ServerConnection> ConnectionState =
         new ReactiveProperty<ServerConnection>(ServerConnection.UNCONNECTED);
 
@@ -22,4 +29,8 @@ public class ClientState {
     public ReactiveProperty<LevelData> CurrentLevel = new ReactiveProperty<LevelData>();
 
     public ReactiveProperty<ButtonInfo> CurrentInstruction = new ReactiveProperty<ButtonInfo>(null);
+
+    public ReactiveProperty<GameMode> GameState = new ReactiveProperty<GameMode>(GameMode.MAIN_MENU);
+
+    public bool ButtonInteractable = false;
 }

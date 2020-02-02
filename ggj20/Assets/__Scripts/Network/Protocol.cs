@@ -8,7 +8,9 @@ public enum MessageType {
     SERVER_READY,
     CURRENT_INFO,
     INSTRUCTION,
-    RESPONSE
+    RESPONSE,
+    TIMER_OVER,
+    GAME_OVER
 };
 
 [Serializable]
@@ -47,3 +49,8 @@ public class LevelData {
     public int Index;
     public List<ButtonInfo> Buttons;
 };
+
+[Serializable]
+public class HealthData {
+    public int Health;
+}

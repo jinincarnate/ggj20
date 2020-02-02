@@ -47,6 +47,8 @@ public class ServerManager : IInitializable {
 
         var playerButtons = ButtonConfig.GetRandomButtons(buttons.Buttons, LevelInfo.ButtonCount*totalPlayers);
 
+        serverState.CurrentHealth = currentLevel.MaxHealth;
+
         int count = 0;
         foreach(KeyValuePair<int, Player> kvp in serverState.Players) {
             var player = kvp.Value;
@@ -155,6 +157,9 @@ public class ServerManager : IInitializable {
             case MessageType.RESPONSE:
                 HandleResponse(message.PeerId, message.Message);
                 break;
+            case MessageType.TIMER_OVER:
+                HandleTimeout(message.PeerId, message.Message);
+                break;
             default:
                 break;
         }
@@ -165,6 +170,30 @@ public class ServerManager : IInitializable {
         serverState.CurrentLevel.Value = new Level {
             Index = serverState.CurrentLevel.Value.Index + 1
         };
+    }
+
+    private void HandleTimeout(int id, NetworkData data) {
+        if(serverState.ServerMode.Value != ServerState.Mode.GAME) {
+            return;
+        }
+
+        var buttonInfo = JsonConvert.DeserializeObject<ButtonInfo>(data.Data);
+        var found = activeInstructions.FindIndex(button => button.Equals(buttonInfo));
+        if(found > -1) {
+            serverState.CurrentHealth -= 1;
+            if(instructionSet.Count == 0 || serverState.CurrentHealth <= 0) {
+                OnLevelLost();
+            }
+        }
+    }
+
+    private void OnLevelLost() {
+        // game over
+        serverState.ServerMode.Value = ServerState.Mode.GAME_OVER;
+        SendToAll(new NetworkData {
+            Type = MessageType.GAME_OVER,
+            Data = ""
+            });
     }
 
     private void HandleResponse(int id, NetworkData data) {

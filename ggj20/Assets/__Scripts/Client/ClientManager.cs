@@ -36,9 +36,16 @@ public class ClientManager : IInitializable, ITickable, IDisposable {
             case MessageType.INSTRUCTION:
                 HandleInstruction(JsonConvert.DeserializeObject<ButtonInfo>(message.Data));
                 break;
+            case MessageType.GAME_OVER:
+                HandleGameOver();
+                break;
             default:
                 break;
         }
+    }
+
+    private void HandleGameOver() {
+        clientState.GameState.Value = ClientState.GameMode.GAME_OVER;
     }
 
     private void HandleCurrentInfo(LevelData data) {
