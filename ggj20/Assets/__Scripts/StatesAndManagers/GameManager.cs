@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject lobbyPanel;
     [SerializeField] private GameObject playAreaPanel;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject gameWonPanel;
 
     [Inject] private ClientState clientState;
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
         lobbyPanel.SetActive(false);
         playAreaPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+        gameWonPanel.SetActive(false);
 
         clientState.GameState
             .Subscribe(HandleGameStateChanged)
@@ -41,24 +43,35 @@ public class GameManager : MonoBehaviour
                 lobbyPanel.SetActive(false);
                 playAreaPanel.SetActive(false);
                 gameOverPanel.SetActive(false);
+                gameWonPanel.SetActive(false);
                 break;
             case GameMode.LOBBY_LOADING:
                 mainMenuPanel.SetActive(false);
                 lobbyPanel.SetActive(true);
                 playAreaPanel.SetActive(false);
                 gameOverPanel.SetActive(false);
+                gameWonPanel.SetActive(false);
                 break;
             case GameMode.PLAYING:
                 mainMenuPanel.SetActive(false);
                 lobbyPanel.SetActive(false);
                 playAreaPanel.SetActive(true);
                 gameOverPanel.SetActive(false);
+                gameWonPanel.SetActive(false);
                 break;
             case GameMode.GAME_OVER:
                 mainMenuPanel.SetActive(false);
                 lobbyPanel.SetActive(false);
                 playAreaPanel.SetActive(false);
                 gameOverPanel.SetActive(true);
+                gameWonPanel.SetActive(false);
+                break;
+            case GameMode.GAME_WON:
+                mainMenuPanel.SetActive(false);
+                lobbyPanel.SetActive(false);
+                playAreaPanel.SetActive(false);
+                gameOverPanel.SetActive(false);
+                gameWonPanel.SetActive(true);
                 break;
 
             default:
