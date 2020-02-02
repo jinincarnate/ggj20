@@ -76,6 +76,10 @@ public class PlayArea : MonoBehaviour
                         var button = GetButton(buttonData);
                         buttonList.Add(button);
                     }
+
+                    // set health to max locally
+                    var maxHealth = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index].MaxHealth;
+                    clientState.CurrentHealth.Value = maxHealth;
                 });
 
         var instructionStream = clientState.CurrentInstruction
