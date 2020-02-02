@@ -69,16 +69,16 @@ public class PlayArea : MonoBehaviour
             .TakeUntilDisable(this)
             .Subscribe(level => {
 
-                    buttonList.ForEach(button => Destroy(button.gameObject));
-                    buttonList.Clear();
+                buttonList.ForEach(button => Destroy(button.gameObject));
+                buttonList.Clear();
 
-                    foreach(var buttonData in level.Buttons) {
-                        var button = GetButton(buttonData);
-                        buttonList.Add(button);
-                    }
-
-                    // set health to max locally
-                    var maxHealth = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index].MaxHealth;
+                foreach(var buttonData in level.Buttons) {
+                    var button = GetButton(buttonData);
+                    buttonList.Add(button);
+                }
+                TextAreaText.text = "Wait for instructions";
+                // set health to max locally
+                var maxHealth = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index].MaxHealth;
                     clientState.CurrentHealth.Value = maxHealth;
                 });
 
@@ -125,23 +125,4 @@ public class PlayArea : MonoBehaviour
                     progressBar.fillAmount = val / max;
                 });
     }
-
-    // private void ResetProgress(ButtonInfo buttonInfo)
-    // {
-    //     currentMaxProgress = levelConfig.LevelInfo[clientState.CurrentLevel.Value.Index].Timeout;
-    //     currentProgress = currentMaxProgress;
-    // }
-
-    // private void Update()
-    // {
-    //     if(currentProgress > 0.0f)
-    //     {
-    //         currentProgress -= Time.unscaledDeltaTime;
-    //         progressBar.fillAmount = currentProgress / currentMaxProgress;
-    //     }
-    //     else
-    //     {
-
-    //     }
-    // }
 }
