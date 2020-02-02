@@ -9,7 +9,7 @@ public class PlayerCollection : MonoBehaviour
     [Inject] private ClientState clientState;
     [Inject] private PlayerObject.Factory playerObjectFactory;
 
-    void Start()
+    void Awake()
     {
         clientState.Players.ObserveAdd()
             .TakeUntilDestroy(this)
