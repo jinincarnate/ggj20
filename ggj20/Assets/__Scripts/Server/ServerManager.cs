@@ -168,10 +168,18 @@ public class ServerManager : IInitializable {
     }
 
     private void OnLevelWon() {
-        serverState.ServerMode.Value = ServerState.Mode.LOADING;
-        serverState.CurrentLevel.Value = new Level {
-            Index = serverState.CurrentLevel.Value.Index + 1
-        };
+        if(serverState.CurrentLevel.Value.Index >= levels.LevelInfo.Count - 1)  {
+            SendToAll(new NetworkData {
+                    Type = MessageType.GAME_WON,
+                    Data = ""
+                });
+        }
+        else {
+            serverState.ServerMode.Value = ServerState.Mode.LOADING;
+            serverState.CurrentLevel.Value = new Level {
+                Index = serverState.CurrentLevel.Value.Index + 1
+            };
+        }
     }
 
     private void HandleTimeout(int id, NetworkData data) {

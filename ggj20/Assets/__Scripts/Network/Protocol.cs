@@ -11,7 +11,8 @@ public enum MessageType {
     RESPONSE,
     TIMER_OVER,
     GAME_OVER,
-    HEALTH
+    HEALTH,
+    GAME_WON
 };
 
 [Serializable]
